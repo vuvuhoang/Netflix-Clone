@@ -14,6 +14,7 @@ function Modal() {
     const [trailer, setTrailer] = useState('')
     const [genres, setGenres] = useState<Genre[]>([])
     const [muted, setMuted] = useState(false)
+    const [showPlayer, setShowPlayer] = useState(false);
 
     useEffect(() => {
         if (!movie) return;
@@ -42,6 +43,7 @@ function Modal() {
 
     function handleClose (){
         setShowModal(false)
+        setShowPlayer(false)
     }
 
     return (
@@ -50,7 +52,8 @@ function Modal() {
             onClose={handleClose} 
             className="fixed !top-7 left-0 right-0 z-50 mx-auto w-full max-w-5xl overflow-hidden overflow-y-scroll rounded-md scrollbar-hide">
             <>
-                <button onClick={handleClose} className="modalButton absolute right-5 top-5 !z-40 h-9 w-9 border-none bg-[#181818] hover:bg-[#181818]">
+                <button onClick={handleClose} 
+                className="modalButton absolute right-5 top-5 !z-40 h-9 w-9 border-none bg-[#181818] hover:bg-[#181818]">
                     <XIcon className="h-6 w-6" />
                 </button>
                 <div className="relative pt-[56.25%]">
@@ -59,13 +62,13 @@ function Modal() {
                         width="100%"
                         height="100%"
                         style={{ position: 'absolute', top: '0', left: '0' }}
-                        playing
+                        playing={showPlayer}
                         muted={muted}
                         controls={true}
                     />
-                    <div className="absolute bottom-10 flex w-full items-center justify-between px-10">
+                    <div className={`absolute bottom-10 flex w-full items-center justify-between px-10 ${showPlayer ? "opacity-0" : "opacity-100 z-50"}`}>
                         <div className="flex space-x-2">
-                            <button className="flex items-center gap-x-2 rounded bg-white px-8 text-xl font-bold text-black transition hover:bg-[#e6e6e6]">
+                            <button className="flex items-center gap-x-2 rounded bg-white px-8 text-xl font-bold text-black transition hover:bg-[#e6e6e6]" onClick={() => setShowPlayer(true)}>
                                 <FaPlay className="h-7 w-7 text-black"/>
                                 Play
                             </button>
